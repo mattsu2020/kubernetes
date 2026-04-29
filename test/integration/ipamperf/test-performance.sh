@@ -27,14 +27,14 @@ function usage() {
   echo " -h display this help message"
   echo " -d enable debug logs in tests"
   echo " -r <pattern> regex pattern to match for tests"
-  echo " -o <filename> file to write JSON formatted results to"
-  echo " -p <id> enable cpu and memory profiles, output written to mem-<id>.out and cpu-<id>.out"
+  echo " -o <filename> file to write JSON-formatted results to"
+  echo " -p <id> enable CPU and memory profiles, output written to mem-<id>.out and cpu-<id>.out"
   echo " -c enable custom test configuration"
   echo " -a <name> allocator name, one of RangeAllocator, CloudAllocator, IPAMFromCluster, IPAMFromCloud"
-  echo " -k <num> api server qps for allocator"
+  echo " -k <num> API server QPS for allocator"
   echo " -n <num> number of nodes to simulate"
-  echo " -m <num> api server qps for node creation"
-  echo " -l <num> gce cloud endpoint qps"
+  echo " -m <num> API server QPS for node creation"
+  echo " -l <num> GCE cloud endpoint QPS"
   exit 1
 }
 

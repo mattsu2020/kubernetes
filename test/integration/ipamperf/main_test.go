@@ -43,10 +43,10 @@ func TestMain(m *testing.M) {
 	flag.StringVar(&resultsLogFile, "log", "", "log file to write JSON results to")
 	flag.BoolVar(&isCustom, "custom", false, "enable custom test configuration")
 	flag.StringVar(&allocator, "allocator", allocator, "allocator to use")
-	flag.IntVar(&customConfig.KubeQPS, "kube-qps", customConfig.KubeQPS, "API server qps for allocations")
+	flag.IntVar(&customConfig.KubeQPS, "kube-qps", customConfig.KubeQPS, "API server QPS for allocations")
 	flag.IntVar(&customConfig.NumNodes, "num-nodes", 10, "number of nodes to simulate")
-	flag.IntVar(&customConfig.CreateQPS, "create-qps", customConfig.CreateQPS, "API server qps for node creation")
-	flag.IntVar(&customConfig.CloudQPS, "cloud-qps", customConfig.CloudQPS, "GCE Cloud qps limit")
+	flag.IntVar(&customConfig.CreateQPS, "create-qps", customConfig.CreateQPS, "API server QPS for node creation")
+	flag.IntVar(&customConfig.CloudQPS, "cloud-qps", customConfig.CloudQPS, "GCE cloud QPS limit")
 	flag.Parse()
 
 	switch allocator {
