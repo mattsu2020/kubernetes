@@ -20,7 +20,7 @@ import (
 	"context"
 	"fmt"
 	"math/rand"
-	"sort"
+	"slices"
 
 	v1 "k8s.io/api/core/v1"
 	policy "k8s.io/api/policy/v1"
@@ -306,8 +306,14 @@ func (pl *DefaultPreemption) SelectVictimsOnNode(
 	numViolatingVictim := 0
 	// Sort potentialVictims by descending importance, which ensures reprieve of
 	// higher importance pods first.
-	sort.Slice(potentialVictims, func(i, j int) bool {
-		return pl.MoreImportantPod(potentialVictims[i].GetPod(), potentialVictims[j].GetPod())
+	slices.SortFunc(potentialVictims, func(a, b fwk.PodInfo) int {
+		if pl.MoreImportantPod(a.GetPod(), b.GetPod()) {
+			return -1
+		}
+		if pl.MoreImportantPod(b.GetPod(), a.GetPod()) {
+			return 1
+		}
+		return 0
 	})
 	// Try to reprieve as many pods as possible. We first try to reprieve the PDB
 	// violating victims and then other non-violating ones. In both cases, we start
@@ -344,7 +350,15 @@ func (pl *DefaultPreemption) SelectVictimsOnNode(
 
 	// Sort victims after reprieving pods to keep the pods in the victims sorted in order of importance from high to low.
 	if len(violatingVictims) != 0 && len(nonViolatingVictims) != 0 {
-		sort.Slice(victims, func(i, j int) bool { return pl.MoreImportantPod(victims[i].GetPod(), victims[j].GetPod()) })
+		slices.SortFunc(victims, func(a, b fwk.PodInfo) int {
+			if pl.MoreImportantPod(a.GetPod(), b.GetPod()) {
+				return -1
+			}
+			if pl.MoreImportantPod(b.GetPod(), a.GetPod()) {
+				return 1
+			}
+			return 0
+		})
 	}
 	var victimPods []*v1.Pod
 	for _, pi := range victims {
